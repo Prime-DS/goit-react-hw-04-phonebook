@@ -1,6 +1,6 @@
 
 export default function ContactList({items,removeContacts}) {
-    // console.log(items)
+    console.log(items)
     const elements = items.map(({name,number,id}) => {
         return <li key={id}>{name} tel:{number} <button onClick={()=>removeContacts(id)}>Delete</button></li>
     })

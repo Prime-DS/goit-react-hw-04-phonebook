@@ -6,33 +6,39 @@ import{Wrapper,TitleH1,} from "./App.styled"
 import { useState,useEffect } from "react";
 
 export default function App() {
-  const [contacts,setcontacts]= useState(()=>{
-    const value =JSON.parse(localStorage.getItem('CONTACTS'))
+  const [contacts,setContacts] = useState(()=>{
+    const value =JSON.parse(localStorage.getItem('contacts'))
   return value ?? [];
 });
   const [filter,setFilter]= useState("");
 
 useEffect(()=>{
-  localStorage.setItem('CONTACTS',JSON.stringify(contacts))
-},[contacts])
+  localStorage.setItem('contacts',JSON.stringify(contacts))
+},[contacts]);
+
+useEffect(()=>{
+  return()=>{
+    localStorage.removeItem("contacts");
+  }
+}, []);
 
   const addContakts = (contacts) => {
     if (isDuplicate(contacts)) {
       return alert(`${contacts.name} - ${contacts.number} is allready in contacts`)
     }
-    setcontacts((prev) => {
-      const newContsct = {
+    setContacts((prev) => {
+      const newContacts = {
         id: nanoid(),
         ...contacts
       }
 
-      return [...prev, newContsct];
+      return [...prev, newContacts];
     })
   };
 
   const removeContacts = (id) => {
-    setcontacts((prev) => {
-      const newContacts = prev.contacts.filter((item) => item.id !== id);
+    setContacts((prev) => {
+      const newContacts = prev.filter((item) => item.id !== id);
 
       return newContacts
     })
@@ -44,11 +50,11 @@ useEffect(()=>{
   };
 
   const isDuplicate =({name,number})=> {
-    const result = contacts.find((item) => item.name === name || item.number === number);
+    const result = contacts.find((item) => item.name === name  || item.number === number);
     return result;
   };
 
-  const getFilterContact= ()=> {
+  const getFilterContact = ()=> {
     // const { contacts, filter } = this.state;
     if (!filter) {
       return contacts
@@ -62,6 +68,7 @@ useEffect(()=>{
       const result = normalizedName.includes(normalizedFilter) || normalizedNumber.includes(normalizedFilter);
       return result;
     })
+
     return filtredContacts;
   }
 
