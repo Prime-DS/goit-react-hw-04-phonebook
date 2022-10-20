@@ -16,12 +16,6 @@ useEffect(()=>{
   localStorage.setItem('contacts',JSON.stringify(contacts))
 },[contacts]);
 
-useEffect(()=>{
-  return()=>{
-    localStorage.removeItem("contacts");
-  }
-}, []);
-
   const addContakts = (contacts) => {
     if (isDuplicate(contacts)) {
       return alert(`${contacts.name} - ${contacts.number} is allready in contacts`)
@@ -72,7 +66,7 @@ useEffect(()=>{
     return filtredContacts;
   }
 
-  const Filtercontacts = getFilterContact()
+  const filtercontacts = getFilterContact()
   return (
     <Wrapper>
       <TitleH1>Phonebook</TitleH1>
@@ -81,7 +75,7 @@ useEffect(()=>{
       <div>
         <h3>Find contacts by name</h3>
         <input type="text" name="filter" onChange={handleChange} value={filter} />
-        <ContactList items={ Filtercontacts} removeContacts={removeContacts} />
+        <ContactList items={ filtercontacts} removeContacts={removeContacts} />
       </div>
       
     </Wrapper>
